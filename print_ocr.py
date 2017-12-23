@@ -11,7 +11,8 @@ def print_letter(letter):
 
 def print_data(label, image):
 	print("============================")
-	print('label: ' + label)
+	print('label: ')
+	print(label)
 	print("----------------------------")
 	print_letter(image)
 	print("============================")
