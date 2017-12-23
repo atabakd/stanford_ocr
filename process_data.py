@@ -6,18 +6,17 @@ import numpy as np
 def extract_data(x):
 	return {
 		'label': x[1],
-		'pixels': x[6:134]
+		'images': x[6:134]
 	}
 
-pixels = []
+images = []
 labels = []
 
-with open('letter.data') as file:
+with open('letter2.data') as file:
 	reader = csv.reader(file, delimiter='\t')
 	for row in reader:
 		data = extract_data(row)
-		pixels.append(data['pixels'])
+		images.append(data['images'])
 		labels.append(data['label'])
 
-np.save("pixels", pixels)
-np.save("labels", labels)
+np.savez("letters", images=images, labels=labels)

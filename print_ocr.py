@@ -17,8 +17,10 @@ def print_data(label, image):
 	print("============================")
 	print('\n\n\n\n\n\n')
 
-images = np.load('pixels.npy')
-labels = np.load('labels.npy')
+data = np.load('letters.npz')
+
+images = data['images']
+labels = data['labels']
 
 for i in range(len(images)):
 	print_data(labels[i], images[i])
