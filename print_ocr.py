@@ -6,7 +6,7 @@ import numpy as np
 def print_letter(letter):
 	for i in range (0, 16):
 		for j in range(0, 8):
-			print("0" if (letter[(8*i + j)] == "1") else " ", end=""),
+			print("00" if (letter[(8*i + j)] == "1") else "  ", end=""),
 		print ()
 
 def print_data(label, image):
