@@ -59,7 +59,9 @@ def main(_):
 
 	cross_entropy = tf.reduce_mean(
 	    tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y))
-	train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
+	train_step = tf.train.AdamOptimizer(0.5).minimize(cross_entropy)
+	correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
+	accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 	sess = tf.InteractiveSession()
 	tf.global_variables_initializer().run()
@@ -70,7 +72,7 @@ def main(_):
 	# Train
 	dataset = dataset.shuffle(buffer_size=10000)
 	# dataset = dataset.batch(25)
-	dataset = dataset.batch(5000)
+	dataset = dataset.batch(500)
 	# dataset = dataset.repeat(10)
 	iterator = dataset.make_initializable_iterator()
 	sess.run(iterator.initializer, feed_dict = {images_placeholder: images,
@@ -85,11 +87,12 @@ def main(_):
 			print(i)
 			sess.run(iterator.initializer, feed_dict = {images_placeholder: images,
 											labels_placeholder: labels})
+			train_accuracy = accuracy.eval(feed_dict={
+      	x: batch_examples, y_: batch_labels})
+			print('step %d, training accuracy %g' % (i, train_accuracy))
 		sess.run(train_step, feed_dict={x:	batch_examples, y_: batch_labels})
 
 	# Test trained model
-	correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
-	accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 	print(sess.run(accuracy, feed_dict={x: images,
 	                                    y_: labels}))
 
