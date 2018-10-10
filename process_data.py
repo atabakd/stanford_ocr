@@ -1,5 +1,6 @@
 # convert data in letter.data to a stored numpy array
 # containing only useful data
+from __future__ import division, print_function, absolute_import, unicode_literals
 import csv
 import numpy as np
 import string
@@ -12,11 +13,13 @@ def string_vectorizer(strng, alphabet=string.ascii_lowercase):
 def extract_data(x):
 	return {
 		'label': string_vectorizer(x[1]),
-		'images': x[6:134]
+		'images': x[6:134],
+        'fold': x[5]
 	}
 
-images = []
-labels = []
+images = list()
+labels = list()
+folds = list()
 
 with open('letter.data') as file:
 	reader = csv.reader(file, delimiter='\t')
@@ -24,5 +27,6 @@ with open('letter.data') as file:
 		data = extract_data(row)
 		images.append(data['images'])
 		labels.append(data['label'])
+		folds.append(data['fold'])
 
 np.savez("letters", images=images, labels=labels)
