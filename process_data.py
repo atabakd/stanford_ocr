@@ -29,4 +29,4 @@ with open('letter.data') as file:
 		labels.append(data['label'])
 		folds.append(data['fold'])
 
-np.savez("letters", images=images, labels=labels)
+np.savez("letters", images=images, labels=labels, folds=folds)
